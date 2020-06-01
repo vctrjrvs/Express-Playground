@@ -1,13 +1,20 @@
 {
   "name": "expressArena",
   "version": "1.0.0",
-  "description": "",
+  "description": "Express Arena",
   "main": "index.js",
   "scripts": {
-    "start": "node app.js",
+    "start": "node app",
+    "dev": "nodemon app",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC"
+  "author": "Victor/Magdalena",
+  "license": "ISC",
+  "dependencies": {
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  }
 }
