@@ -101,21 +101,21 @@ app.get('/cipher', (req, res) => {
      const start = 'A'.charCodeAt(0);
 
      const cipher = text
-     .split('')
-     .map(character => {
-          const code = character.charCodeAt(0)
+          .split('')
+          .map(character => {
+               const code = character.charCodeAt(0)
 
-          if(code < start || code > (start + 26)) {
-               return character
-          }
-          let difference = code - start;
-          difference = difference + shiftNumber;
-          difference = difference % 26
+               if (code < start || code > (start + 26)) {
+                    return character
+               }
+               let difference = code - start;
+               difference = difference + shiftNumber;
+               difference = difference % 26
 
-          const shiftCharacter = String.fromCharCode(start + difference);
-          return shiftCharacter;
-     })
-     .join('')
+               const shiftCharacter = String.fromCharCode(start + difference);
+               return shiftCharacter;
+          })
+          .join('')
 
      res.status(200).send(cipher)
 })
@@ -141,7 +141,7 @@ app.get('/lotto', (req, res) => {
      const stockNumbers = Array(20).fill(1).map((_, i) => i + 1);
 
      const winners = [];
-     for(let i = 0; i < 6; i++) {
+     for (let i = 0; i < 6; i++) {
           const randomNum = Math.floor(Math.random() * stockNumbers.length);
           winners.push(stockNumbers[randomNum]);
           stockNumbers.splice(randomNum, 1)
@@ -151,19 +151,61 @@ app.get('/lotto', (req, res) => {
 
      let responseText;
 
-     switch(comparison.length) {
+     switch (comparison.length) {
           case 0:
-          responseText = "Wow! Unbelievable! You could have won the mega millions!";
-          case 1: 
-          responseText = "Congratulations! You win $100!";
-          case 2: 
-          responseText = "Congratulations, you win a free ticket";
-          default: 
-          responseText = "Sorry, you lose";
+               responseText = "Wow! Unbelievable! You could have won the mega millions!";
+          case 1:
+               responseText = "Congratulations! You win $100!";
+          case 2:
+               responseText = "Congratulations, you win a free ticket";
+          default:
+               responseText = "Sorry, you lose";
      }
 
      res.send(responseText)
 })
+
+app.get('/grade', (req, res) => {
+     // get the mark from the query
+     const { mark } = req.query;
+
+     // do some validation
+     if (!mark) {
+          // mark is required
+          return res
+               .status(400)
+               .send('Please provide a mark');
+     }
+
+     const numericMark = parseFloat(mark);
+     if (Number.isNaN(numericMark)) {
+          // mark must be a number
+          return res
+               .status(400)
+               .send('Mark must be a numeric value');
+     }
+
+     if (numericMark < 0 || numericMark > 100) {
+          // mark must be in range 0 to 100
+          return res
+               .status(400)
+               .send('Mark must be in range 0 to 100');
+     }
+
+     if (numericMark >= 90) {
+          return res.send('A');
+     }
+
+     if (numericMark > 80) {
+          return res.send('B');
+     }
+
+     if (numericMark >= 70) {
+          return res.send('C');
+     }
+
+     res.send('F');
+});
 
 app.listen(8000, () => {
      console.log('Express server is listening on port 8000!');
