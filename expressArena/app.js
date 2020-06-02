@@ -196,7 +196,7 @@ app.get('/grade', (req, res) => {
           return res.send('A');
      }
 
-     if (numericMark > 80) {
+     if (numericMark >= 80) {
           return res.send('B');
      }
 
